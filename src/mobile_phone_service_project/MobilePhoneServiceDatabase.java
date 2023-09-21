@@ -4,6 +4,8 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Formatter;
 import java.util.Scanner;
 
 import static mobile_phone_service_project.MyProjectUtils.*;
@@ -66,6 +68,8 @@ public class MobilePhoneServiceDatabase {
                                 System.out.print("Enter Service Provider Name: ");
                                 String serviceProviderName = new Scanner(System.in).nextLine();
                                 LocalDateTime now = LocalDateTime.now();
+                                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                                String formatDateTime = now.format(dateTimeFormatter);
                                 String insertQuery = "INSERT INTO Customer_Information_And_Repair_Part " +
                                         "(Customer_name, Customer_email,Customer_ph_number, Customer_address, Device_information, Repair_part, Error_message, Service_provider_name, Service_receive_time)" +
                                         "VALUES(? ,? ,? ,? ,? ,? ,? ,?, ?)";
@@ -78,7 +82,7 @@ public class MobilePhoneServiceDatabase {
                                 insertStatement.setString(6,repairPart);
                                 insertStatement.setString(7,errorMessage);
                                 insertStatement.setString(8,serviceProviderName);
-                                insertStatement.setString(9, String.valueOf(now));
+                                insertStatement.setString(9, String.valueOf(formatDateTime));
                                 insertStatement.executeUpdate();
                                 System.out.println("Information added Successfully!");
                                 System.out.println(" ");
@@ -140,6 +144,7 @@ public class MobilePhoneServiceDatabase {
                                 System.out.println("6. Repair Part");
                                 System.out.println("7. Error Message");
                                 System.out.println("8. Service provider name");
+                                System.out.println("9. Exit");
                                 System.out.print("Enter your choice: ");
                                 int updateChoice = new Scanner(System.in).nextInt();
 
@@ -187,6 +192,9 @@ public class MobilePhoneServiceDatabase {
                                         System.out.print("Enter the new Customer name: ");
                                         newValue = new Scanner(System.in).nextLine();
                                         break;
+                                    case 9:
+                                        System.exit(0);
+                                        break;
                                     default:
                                         System.out.println("Invalid choice. Please try again.");
                                         break;
@@ -202,10 +210,13 @@ public class MobilePhoneServiceDatabase {
                                         System.out.println("Customer information updated successfully!");
                                         System.out.println(" ");
                                     } else {
-                                        System.out.println("Failed to update employee information.");
+                                        System.out.println("Failed to update information.");
                                         System.out.println(" ");
                                     }
                                 }
+                                break;
+                            case 5:
+                                System.exit(0);
                                 break;
                             default:
                                 System.out.println("Invalid choice. Please try again.");
@@ -236,6 +247,8 @@ public class MobilePhoneServiceDatabase {
                                 System.out.print("Enter Service Provider Address: ");
                                 String address = new Scanner(System.in).nextLine();
                                 LocalDateTime now = LocalDateTime.now();
+                                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                                String formatDateTime = now.format(dateTimeFormatter);
                                 String insertQuery = "INSERT INTO Service_Provider_Information " +
                                         "( Service_provider_name, Service_provider_ph_number, Service_provider_address, Service_provider_start_working_date)" +
                                         "VALUES(? ,? ,? ,?)";
@@ -243,7 +256,7 @@ public class MobilePhoneServiceDatabase {
                                 insertStatement.setString(1,serviceProviderName);
                                 insertStatement.setString(2,phoneNumber);
                                 insertStatement.setString(3,address);
-                                insertStatement.setString(4,String.valueOf(now));
+                                insertStatement.setString(4,String.valueOf(formatDateTime));
                                 insertStatement.executeUpdate();
                                 System.out.println("Information added Successfully!");
                                 System.out.println(" ");
@@ -315,6 +328,13 @@ public class MobilePhoneServiceDatabase {
                                     break;
                                 }
                                 break;
+                            case 4:
+                                System.exit(0);
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Please try again.");
+                                System.out.println(" ");
+                                break;
                         }
                         break;
                     }
@@ -336,19 +356,21 @@ public class MobilePhoneServiceDatabase {
                             System.out.print("Enter Returning Received Customer Name: ");
                             String returningReceivedCustomerName = new Scanner(System.in).nextLine();
                             LocalDateTime now = LocalDateTime.now();
-                            String insertQuery = "INSERT INTO Phone_Returning_To_Customer_Time " +
+                            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                            String formatDateTime = now.format(dateTimeFormatter);
+                            String insertQuery = "INSERT INTO Phone_Returning_To_Customer " +
                                     "( Id_from_Customer_Information, Returning_Received_Customer_Name, Returning_Time)" +
                                     "VALUES(? ,? ,?)";
                             PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
                             insertStatement.setInt(1,idOfServiceReceivingTime);
                             insertStatement.setString(2,returningReceivedCustomerName);
-                            insertStatement.setString(3,String.valueOf(now));
+                            insertStatement.setString(3,String.valueOf(formatDateTime));
                             insertStatement.executeUpdate();
                             System.out.println("Information added Successfully!");
                             System.out.println(" ");
                             break;
                         case 2:
-                            ResultSet resultSet = statement.executeQuery("SELECT * FROM Phone_Returning_To_Customer_Time");
+                            ResultSet resultSet = statement.executeQuery("SELECT * FROM Phone_Returning_To_Customer");
                             while (resultSet.next()){
                                 System.out.println("ID of Returning Received Time : " + resultSet.getString("Id"));
                                 System.out.println("ID of Service Receiving Time  : " + resultSet.getInt("Id_from_Customer_Information"));
@@ -361,7 +383,7 @@ public class MobilePhoneServiceDatabase {
                             System.out.print("Enter the ID of the service provider to update: ");
                             int returningReceivedTimeIdToUpdate = new Scanner(System.in).nextInt();
 
-                            ResultSet checkResult = statement.executeQuery("SELECT * FROM Phone_Returning_To_Customer_Time WHERE id = " + returningReceivedTimeIdToUpdate);
+                            ResultSet checkResult = statement.executeQuery("SELECT * FROM Phone_Returning_To_Customer WHERE id = " + returningReceivedTimeIdToUpdate);
                             if (!checkResult.next()) {
                                 System.out.println("Service provider with ID " + returningReceivedTimeIdToUpdate + " does not exist.");
                                 System.out.println(" ");
@@ -393,7 +415,7 @@ public class MobilePhoneServiceDatabase {
                                     break;
                             }
                             if (!updateField.isEmpty()) {
-                                String updateQuery = "UPDATE Phone_Returning_To_Customer_Time SET " + updateField + " = ? WHERE id = ?";
+                                String updateQuery = "UPDATE Phone_Returning_To_Customer SET " + updateField + " = ? WHERE id = ?";
                                 PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
                                 if (updateChoice==1){
                                     updateStatement.setInt(1,Integer.parseInt(newValue));
@@ -404,7 +426,7 @@ public class MobilePhoneServiceDatabase {
                                 int rowsUpdated = updateStatement.executeUpdate();
 
                                 if (rowsUpdated > 0) {
-                                    System.out.println("Service provider information updated successfully!");
+                                    System.out.println("Phone_Returning_To_Customer updated successfully!");
                                     System.out.println(" ");
                                 } else {
                                     System.out.println("Failed to update information.");
@@ -412,6 +434,13 @@ public class MobilePhoneServiceDatabase {
                                 }
                                 break;
                             }
+                            break;
+                        case 4:
+                            System.exit(0);
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please try again.");
+                            System.out.println(" ");
                             break;
                     }
                     break;
@@ -473,6 +502,9 @@ public class MobilePhoneServiceDatabase {
                             break;
                     }
                     break;
+                case 5:
+                    System.exit(0);
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
                     System.out.println(" ");
@@ -530,11 +562,11 @@ public class MobilePhoneServiceDatabase {
                     "Service_provider_ph_number VARCHAR(300)," +
                     "Service_provider_address VARCHAR(300)," +
                     "Service_provider_start_working_date VARCHAR(50))");
-            statement.execute("CREATE TABLE IF NOT EXISTS Phone_Returning_To_Customer_Time " +
+            statement.execute("CREATE TABLE IF NOT EXISTS Phone_Returning_To_Customer " +
                     "(Id INT AUTO_INCREMENT PRIMARY KEY," +
                     "Id_from_Customer_Information INT," +
                     "Returning_Received_Customer_Name VARCHAR(100)," +
-                    "Returning_Time VARCHAR(30))");
+                    "Returning_Time TEXT)");
             statement.execute("CREATE TABLE IF NOT EXISTS User_Table " +
                     "(Id INT AUTO_INCREMENT PRIMARY KEY," +
                     "email VARCHAR(100)," +
