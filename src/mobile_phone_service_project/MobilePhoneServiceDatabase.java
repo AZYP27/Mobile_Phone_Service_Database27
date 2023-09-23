@@ -31,7 +31,7 @@ public class MobilePhoneServiceDatabase {
             System.out.println("3. Mobile Phone Returning Time");
             System.out.println("4. Login Info Update");
             System.out.println("5. Exit");
-            System.out.print("Enter your choice: ");
+            System.out.print("Enter your choice(Integer only): ");
 
             int choice = new Scanner(System.in).nextInt();
 
@@ -45,7 +45,7 @@ public class MobilePhoneServiceDatabase {
                         System.out.println("3. Search Customer Information By ID");
                         System.out.println("4. Update Customer Information");
                         System.out.println("5. Exit");
-                        System.out.print("Enter your choice: ");
+                        System.out.print("Enter your choice(Integer only): ");
 
                         int choice1 = new Scanner(System.in).nextInt();
 
@@ -145,7 +145,7 @@ public class MobilePhoneServiceDatabase {
                                 System.out.println("7. Error Message");
                                 System.out.println("8. Service provider name");
                                 System.out.println("9. Exit");
-                                System.out.print("Enter your choice: ");
+                                System.out.print("Enter your choice(Integer only): ");
                                 int updateChoice = new Scanner(System.in).nextInt();
 
                                 String updateField = "";
@@ -234,7 +234,7 @@ public class MobilePhoneServiceDatabase {
                         System.out.println("2. List All Information");
                         System.out.println("3. Update Service Provider Information");
                         System.out.println("4. Exit");
-                        System.out.print("Enter your choice: ");
+                        System.out.print("Enter your choice(Integer only): ");
 
                         int choice1 = new Scanner(System.in).nextInt();
 
@@ -287,7 +287,7 @@ public class MobilePhoneServiceDatabase {
                                 System.out.println("1. Name");
                                 System.out.println("2. Phone Number");
                                 System.out.println("3. Address");
-                                System.out.print("Enter your choice: ");
+                                System.out.print("Enter your choice(Integer only): ");
                                 int updateChoice = new Scanner(System.in).nextInt();
                                 String updateField = "";
                                 String newValue = "";
@@ -346,7 +346,7 @@ public class MobilePhoneServiceDatabase {
                     System.out.println("2. List All Information");
                     System.out.println("3. Update Mobile Phone Returning Time Information");
                     System.out.println("4. Exit");
-                    System.out.print("Enter your choice: ");
+                    System.out.print("Enter your choice(Integer only): ");
 
                     int choice1 = new Scanner(System.in).nextInt();
                     switch (choice1){
@@ -393,7 +393,7 @@ public class MobilePhoneServiceDatabase {
                             System.out.println("Select field to update");
                             System.out.println("1. ID of Service Receiving Time");
                             System.out.println("2. Returning Received Customer Name");
-                            System.out.print("Enter your choice: ");
+                            System.out.print("Enter your choice(Integer only): ");
                             int updateChoice = new Scanner(System.in).nextInt();
                             String updateField = "";
                             String newValue = "";
@@ -450,7 +450,7 @@ public class MobilePhoneServiceDatabase {
                     System.out.println("1. E-mail");
                     System.out.println("2. Password");
                     System.out.println("3. Exit");
-                    System.out.print("Enter your choice: ");
+                    System.out.print("Enter your choice(Integer only): ");
 
                     int choice2 = new Scanner(System.in).nextInt();
 
@@ -579,7 +579,7 @@ public class MobilePhoneServiceDatabase {
                 System.out.println("1. Login");
                 System.out.println("2. Register");
                 System.out.println("3. Exit");
-                System.out.print("Enter your choice: ");
+                System.out.print("Enter your choice(Integer only): ");
 
                 int authChoice = new Scanner(System.in).nextInt();
 
